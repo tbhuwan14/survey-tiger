@@ -30,6 +30,11 @@ function Publish({ finalData, history }) {
         multiRadioData={multiRadioData}
         setMultiRadioData={setMultiRadioData}
       />
+      {finalData.length === 0 ? (
+        <div className="alert alert-danger">
+          Please Add Atleast One Question!!!
+        </div>
+      ) : null}
       <Button disabled={finalData.length <= 0} onClick={handlePublishToServer}>
         Confirm
       </Button>

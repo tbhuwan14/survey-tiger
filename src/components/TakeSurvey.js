@@ -2,7 +2,7 @@ import React from "react";
 
 function TakeSurvey() {
   return (
-    <div className="alert alert-danger">Hi user!!! We are working on this</div>
+    <div className="alert alert-danger">Hi User!!! We Are Working On This</div>
   );
 }
 
