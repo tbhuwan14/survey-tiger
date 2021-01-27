@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   InputGroup,
   InputGroupAddon,
@@ -6,21 +6,56 @@ import {
   Input,
   Button,
 } from "reactstrap";
+import Validator from "../utills/QuestionValidationError";
 
-function SingleSelect({ queData, setQueData, handleAddQuestion }) {
-  const handleChange = ({ target }) => {
-    const newQueData = { ...queData };
-    if (target.id === "question") {
-      newQueData.question = target.value;
-    }
-    if (target.id === "yes") {
-      newQueData.option1 = target.value;
-    }
-    if (target.id === "no") {
-      newQueData.option2 = target.value;
-    }
-    setQueData(newQueData);
+function SingleSelect({ props, setDropDownSelect }) {
+  const { finalData, setFinalData, history } = props;
+  const [queData, setQueData] = useState({
+    key: "single",
+    question: "",
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const handleAddQuestion = () => {
+    const newErrors = validate();
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length !== 0) return;
+
+    const newFinalData = [...finalData];
+    newFinalData.push(queData);
+    setFinalData(newFinalData);
+    setQueData({
+      key: "single",
+      question: "",
+    });
+    setDropDownSelect("Select Question Type");
   };
+
+  const validate = () => {
+    const newErrors = { ...errors };
+    for (let key in queData) {
+      newErrors[key] = Validator(key, queData[key]);
+      if (!newErrors[key]) delete newErrors[key];
+    }
+    return newErrors;
+  };
+
+  const handleChange = ({ target: input }) => {
+    const { value, name } = input;
+    const newQueData = { ...queData };
+    newQueData[name] = value;
+    setQueData(newQueData);
+
+    const newErrors = { ...errors };
+    newErrors[name] = Validator(name, value);
+    setErrors(newErrors);
+  };
+
+  const handlePublish = () => {
+    history.replace("/publish");
+  };
+
   return (
     <div className="question-container">
       <InputGroup className="input-question">
@@ -29,37 +64,31 @@ function SingleSelect({ queData, setQueData, handleAddQuestion }) {
         </InputGroupAddon>
         <Input
           onChange={handleChange}
+          name="question"
           id="question"
           placeholder="Enter Your Question"
           value={queData.question}
         />
       </InputGroup>
+      {errors.question && (
+        <div className="alert alert-danger">{errors.question}</div>
+      )}
       <InputGroup className="input-question">
-        <Input
-          onChange={handleChange}
-          id="yes"
-          placeholder="Yes"
-          value={queData.option1}
-        />
+        <Input name="option1" id="yes" value="Yes" readOnly />
         <InputGroupAddon addonType="append">
           <InputGroupText>+</InputGroupText>
           <InputGroupText>-</InputGroupText>
         </InputGroupAddon>
       </InputGroup>
       <InputGroup className="input-question">
-        <Input
-          onChange={handleChange}
-          id="no"
-          placeholder="No"
-          value={queData.option2}
-        />
+        <Input name="option2" id="no" value="No" readOnly />
         <InputGroupAddon addonType="append">
           <InputGroupText>+</InputGroupText>
           <InputGroupText>-</InputGroupText>
         </InputGroupAddon>
       </InputGroup>
       <Button onClick={handleAddQuestion}>Add Question</Button>
-      <Button>Publish</Button>
+      <Button onClick={handlePublish}>Publish</Button>
     </div>
   );
 }

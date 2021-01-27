@@ -8,28 +8,11 @@ import {
 import MultiSelect from "./MultiSelect.js";
 import SingleSelect from "./SingleSelect.js";
 
-function CreateSurvey({ finalData }) {
+function CreateSurvey(props) {
   const [dropdownOpen, setOpen] = useState(false);
   const [dropDownSelect, setDropDownSelect] = useState("Select Question Type");
 
   const toggle = () => setOpen(!dropdownOpen);
-
-  const [singleQueData, setSingleQueData] = useState({
-    question: "",
-    option1: "",
-    option2: "",
-  });
-
-  const handleAddQuestion = () => {
-    finalData.push(singleQueData);
-    setSingleQueData({
-      question: "",
-      option1: "",
-      option2: "",
-    });
-    setDropDownSelect("Select Question Type");
-    console.log(finalData);
-  };
 
   return (
     <>
@@ -47,13 +30,11 @@ function CreateSurvey({ finalData }) {
         </DropdownMenu>
       </ButtonDropdown>
       {dropDownSelect === "Single-Type" ? (
-        <SingleSelect
-          queData={singleQueData}
-          setQueData={setSingleQueData}
-          handleAddQuestion={handleAddQuestion}
-        />
+        <SingleSelect props={props} setDropDownSelect={setDropDownSelect} />
       ) : null}
-      {dropDownSelect === "Multi-Type" ? <MultiSelect /> : null}
+      {dropDownSelect === "Multi-Type" ? (
+        <MultiSelect props={props} setDropDownSelect={setDropDownSelect} />
+      ) : null}
     </>
   );
 }

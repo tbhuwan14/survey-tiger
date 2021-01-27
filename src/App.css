@@ -7,7 +7,6 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 .btn-survey {
   justify-content: center;
@@ -18,9 +17,13 @@
 }
 
 .input-question {
-  margin: 10px;
+  margin-bottom: 10px;
 }
 
 .question-container {
   width: 500px;
+}
+
+.btn-group {
+  margin-bottom: 10px;
 }
