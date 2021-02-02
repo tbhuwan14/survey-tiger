@@ -1,7 +1,7 @@
 import React from "react";
 
 function MultiQueData({ multiQue }) {
-  const optionLength = Object.keys(multiQue).length;
+  // const optionLength = Object.keys(multiQue).length;
   return (
     <div>
       {multiQue.map((que, index) => (
