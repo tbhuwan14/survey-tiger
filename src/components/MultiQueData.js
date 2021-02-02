@@ -6,7 +6,7 @@ function MultiQueData({ multiQue }) {
     <div>
       {multiQue.map((que, index) => (
         <form key={index}>
-          <p>{que.question}</p>
+          {/* <p>{que.question}</p> */}
           {/* <input type="radio" id="yes" name="option" value="yes"></input>
           <label>Yes</label>
           <br></br>
